@@ -1,62 +1,59 @@
 
 # General Insight
 
-**Research, Data Analysis & Decision Support**
+**Data & Innovation**
 
-General Insight provides customized analytical and research support across multiple sectors by integrating data analysis, research methodology, and decision-oriented insights.
+General Insight provides research, analytical, and data-driven support across multiple sectors, focusing on transforming complex information into actionable insights and innovative solutions.
 
 ---
 
 ## What We Do
 
-### Analysis & Reporting
-Structured reports and analytical briefs to support organizational, academic, and strategic needs.
+### Data Analysis & Reporting
+Structured reports, analytical briefs, and visualization to support organizational, academic, and strategic needs.
 
 ### Data Exploration
-In-depth analysis of patterns, trends, and behaviors using quantitative, qualitative, and mixed-method approaches.
+In-depth analysis of trends, patterns, and behaviors using quantitative, qualitative, and mixed-method approaches.
 
-### Research & Data Support
-Providing datasets, analytical tools, and visualizations for researchers, institutions, and organizations working with complex data.
+### Innovation & Tools
+Developing tools, dashboards, and workflows to enhance data processing, visualization, and decision support.
 
 ---
 
-## Areas of Insight & Application
+## Areas of Focus
 
 | Domain | Description |
-|------|-------------|
-| Trend & Pattern Analysis | Identifying dynamics across social, economic, and institutional data. |
-| Behavioral & Contextual Insight | Understanding narratives, perceptions, and collective responses. |
-| Information & Media Analysis | Examining content, discourse, and sentiment across information channels. |
-| Organizational & Strategic Insight | Supporting planning, evaluation, and decision-making processes. |
-| Knowledge & Evidence Support | Turning raw data into structured, usable knowledge. |
-| Data & Technology Solutions | Developing tools for data collection, processing, and visualization. |
+|--------|-------------|
+| Trend & Pattern Analysis | Identifying dynamics across datasets in social, economic, and organizational contexts. |
+| Behavioral & Contextual Insight | Understanding patterns, narratives, and responses from data. |
+| Data & Technology Solutions | Building tools, dashboards, and methods to collect, process, and visualize data. |
+| Research Support | Providing datasets, analytical tools, and visualizations to researchers and organizations. |
 
 ---
 
 ## About General Insight
 
-General Insight is a research-driven initiative focused on transforming complex data into clear, usable, and actionable insights.
+General Insight is a research-driven initiative transforming complex data into clear, usable, and actionable insights.  
 
-We work at the intersection of data, context, and interpretation to help individuals and organizations better understand their environments and make informed decisions.
+We operate at the intersection of **data, context, and interpretation** to help individuals and organizations make informed decisions and foster innovation.
 
-> Insight begins when data meets understanding.
+> Insight begins when data meets innovation.
 
 ---
 
 ## Vision
-To become a trusted platform for data-driven insight that supports informed decisions across diverse fields and sectors.
+To become a trusted platform for **data-driven insight and innovation**, supporting informed decisions across diverse fields and sectors.
 
 ## Mission
 - Translate complex data into clear insights.
 - Support evidence-based thinking and analysis.
 - Enable informed decisions through accessible research outputs.
+- Foster innovation in data tools and methodology.
 
 ## Core Philosophy
-At General Insight, data is treated as a tool for understanding rather than merely information.
+At General Insight, data is a tool for understanding and innovation.  
 
-Through careful analysis and transparent methods, we aim to make insight accessible, reliable, and meaningful.
-
----
+Through careful analysis and transparent methods, we aim to make insight **accessible, reliable, and actionable**.
 
 ## Technologies & Tools
 
