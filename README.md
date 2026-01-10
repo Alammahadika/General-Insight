@@ -1,5 +1,6 @@
 
-# General Insight
+![General Insight Logo](https://raw.githubusercontent.com/Alammahadika/General-Insight/main/general-insight/generalinsight-high-resolution-logo-transparent.png)
+
 
 **Data & Innovation**
 
