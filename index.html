@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>General Insight</title>
+
+  <meta name="description" content="General Insight — Data and Innovation through evidence-based insights." />
+  <meta property="og:title" content="General Insight" />
+  <meta property="og:description" content="Data and Innovation — evidence-based insights for society and business." />
+  <meta property="og:image" content="https://raw.githubusercontent.com/Alammahadika/SocPoliTech-Insight/main/SocPoliTech_Logo/SocPoliTech-logo-transparent.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://alammahadika.github.io/General-Insight/" />
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Alammahadika/SocPoliTech-Insight/main/SocPoliTech_Logo/SocPoliTech-horizontal.png" />
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background: #0d1117;
+      color: #e5e7eb;
+      scroll-behavior: smooth;
+    }
+
+    .hero {
+      position: relative;
+      height: 55vh;
+      background: linear-gradient(rgba(15,23,42,0.8), rgba(15,23,42,0.9)),
+        url('https://raw.githubusercontent.com/Alammahadika/SocPoliTech-Insight/main/asset/homepage.jpg') center/cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #f8fafc;
+      border-bottom: 1px solid #1f2937;
+    }
+
+    .hero h1 {
+      font-size: 2.8rem;
+      letter-spacing: 0.05em;
+      margin: 0;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #94a3b8;
+      margin-top: 0.8rem;
+    }
+
+    nav {
+      position: absolute;
+      top: 20px;
+      right: 40px;
+    }
+
+    nav a {
+      margin: 0 12px;
+      text-decoration: none;
+      color: #f1f5f9;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #38bdf8;
+    }
+
+    section {
+      max-width: 1000px;
+      margin: 1.5rem auto;
+      background: #111827;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      padding: 2.8rem 2rem;
+    }
+
+    section h2 {
+      text-align: center;
+      color: #93c5fd;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    section p {
+      text-align: center;
+      color: #cbd5e1;
+      max-width: 750px;
+      margin: 0 auto 1.5rem;
+      line-height: 1.6;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      margin-top: 2rem;
+      justify-items: center;
+    }
+
+    .card {
+      aspect-ratio: 1 / 1;
+      width: 100%;
+      max-width: 300px;
+      background-size: cover;
+      background-position: center;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      color: white;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(2px);
+      z-index: 0;
+      transition: background 0.3s ease;
+    }
+
+    .card:hover::before {
+      background: rgba(0, 0, 0, 0.6);
+    }
+
+    .card h3, .card p {
+      position: relative;
+      z-index: 1;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+    }
+
+    .data {
+      background-image: url('https://raw.githubusercontent.com/Alammahadika/SocPoliTech-Insight/main/asset/economic.jpg');
+    }
+
+    .innovation {
+      background-image: url('https://raw.githubusercontent.com/Alammahadika/SocPoliTech-Insight/main/asset/technology.jpg');
+    }
+
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+    }
+
+    footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 2.5rem 2rem;
+      background: linear-gradient(135deg, #0b0f1a, #1e3a8a);
+      color: #e2e8f0;
+      gap: 1rem;
+      border-radius: 40px 40px 0 0;
+      box-shadow: 0 -4px 15px rgba(0,0,0,0.25);
+    }
+
+    footer a {
+      color: #93c5fd;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="hero">
+    <nav>
+      <a href="#about">About</a>
+      <a href="#research">Focus</a>
+    </nav>
+    <div>
+      <h1>General Insight</h1>
+      <p>Data & Innovation</p>
+    </div>
+  </div>
+
+  <section id="about">
+    <h2>About General Insight</h2>
+    <p><strong>General Insight</strong> transforms complex data into actionable insights, bridging research, technology, and societal needs. We help organizations analyze, visualize, and interpret data in a clear and impactful way.</p>
+  </section>
+
+  <section id="research">
+    <h2>Our Focus</h2>
+    <div class="grid">
+      <a href="data.html" style="text-decoration:none;color:inherit;">
+        <div class="card data">
+          <h3>Data</h3>
+          <p>Analyzing and interpreting structured and open datasets to uncover trends, patterns, and actionable insights.</p>
+        </div>
+      </a>
+
+      <a href="innovation.html" style="text-decoration:none;color:inherit;">
+        <div class="card innovation">
+          <h3>Innovation</h3>
+          <p>Developing tools, visualizations, and methods to enhance data-driven research and technological solutions.</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <div style="flex:1;min-width:250px;">
+      <h3>General Insight</h3>
+      <p>Indonesia</p>
+      <p>© 2026 General Insight</p>
+    </div>
+
+    <div style="flex:1;min-width:250px;text-align:center;">
+      <h3>Contact</h3>
+      <p><a href="mailto:alam.mahadika.psm@umy.ac.id">alam.mahadika.psm@umy.ac.id</a></p>
+      <p><a href="https://github.com/Alammahadika" target="_blank">GitHub: Alammahadika</a></p>
+    </div>
+
+    <div style="flex:1;min-width:250px;text-align:right;">
+      <h3>Collaborations</h3>
+      <p>We collaborate with universities, NGOs, and research institutions to develop open datasets and advance evidence-based insights.</p>
+    </div>
+  </footer>
+</body>
+</html>
+
+
+
