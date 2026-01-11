@@ -10,13 +10,7 @@ General Insight provides research, analytical, and data-driven support across mu
 
 ## What We Do
 
-### Data Analysis & Reporting
-Structured reports, analytical briefs, and visualization to support organizational, academic, and strategic needs.
-
-### Data Exploration
-In-depth analysis of trends, patterns, and behaviors using quantitative, qualitative, and mixed-method approaches.
-
-### Innovation & Tools
+### Innovation & Data
 Developing tools, dashboards, and workflows to enhance data processing, visualization, and decision support.
 
 ---
@@ -42,24 +36,3 @@ We operate at the intersection of **data, context, and interpretation** to help 
 
 ---
 
-## Vision
-To become a trusted platform for **data-driven insight and innovation**, supporting informed decisions across diverse fields and sectors.
-
-## Mission
-- Translate complex data into clear insights.
-- Support evidence-based thinking and analysis.
-- Enable informed decisions through accessible research outputs.
-- Foster innovation in data tools and methodology.
-
-## Core Philosophy
-At General Insight, data is a tool for understanding and innovation.  
-
-Through careful analysis and transparent methods, we aim to make insight **accessible, reliable, and actionable**.
-
-## Technologies & Tools
-
-Our work integrates:
-- R and Python for data analysis and visualization
-- Web-based dashboards and interfaces (Next.js, React, TailwindCSS)
-- Data collection and automation tools (APIs, web scraping)
-- AI and NLP models for text, discourse, and sentiment analysis
