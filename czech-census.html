@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Czech Census | General Insight</title>
+
+  <meta name="description" content="Czech Census — Interactive GIS visualization powered by General Insight." />
+
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Alammahadika/General-Insight/main/general-insight/generalinsight-high-resolution-logo.png" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+  <style>
+    :root {
+      --bg-dark: #0d1117;
+      --card-bg: #0b0e14; /* Dibuat lebih pekat agar warna ungu lebih "pop out" */
+      --accent-blue: #38bdf8;
+      --text-main: #f1f5f9;
+      --text-dim: #94a3b8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-main);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 1.2rem 8%;
+      background: rgba(13, 17, 23, 0.9);
+      backdrop-filter: blur(15px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+    }
+
+    nav img { height: 24px; filter: invert(1); }
+    nav a {
+      color: var(--text-main);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+      transition: 0.3s;
+    }
+    nav a:hover { color: var(--accent-blue); text-shadow: 0 0 10px var(--accent-blue); }
+
+    /* Main Content */
+    main {
+      max-width: 1200px;
+      margin: 140px auto 60px;
+      padding: 0 20px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .header h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      background: linear-gradient(to right, #38bdf8, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+
+    /* Map Card */
+    .map-card {
+      background: var(--card-bg);
+      border-radius: 30px;
+      border: 1px solid rgba(56, 189, 248, 0.15);
+      padding: 10px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.5), 0 0 20px rgba(56, 189, 248, 0.05);
+    }
+
+    #map {
+      height: 700px;
+      border-radius: 25px;
+      background: #0b0e14; 
+    }
+
+    /* Tooltip Premium (Dark & Glow) */
+    .leaflet-tooltip {
+      background: #0f172a !important;
+      border: 1px solid var(--accent-blue) !important;
+      color: white !important;
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.7), 0 0 15px rgba(56, 189, 248, 0.3);
+      font-size: 14px;
+      backdrop-filter: blur(5px);
+    }
+
+    /* Legend Premium */
+    .info.legend {
+      background: rgba(15, 23, 42, 0.85) !important;
+      backdrop-filter: blur(10px);
+      padding: 20px;
+      border-radius: 15px;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #f1f5f9;
+      line-height: 28px;
+      font-size: 13px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    }
+
+    .info.legend i {
+      width: 16px;
+      height: 16px;
+      float: left;
+      margin-right: 12px;
+      margin-top: 6px;
+      border-radius: 4px;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .leaflet-control-attribution { display: none !important; }
+
+    footer {
+      margin-top: 100px;
+      padding: 40px 8%;
+      border-top: 1px solid rgba(56, 189, 248, 0.1);
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-dim);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+
+<body>
+
+<nav>
+  <a href="index.html">
+    <img src="https://raw.githubusercontent.com/Alammahadika/General-Insight/main/general-insight/generalinsight-high-resolution-logo-transparent.png" alt="General Insight Logo">
+  </a>
+  <a href="index.html#research">Back to Focus</a>
+</nav>
+
+<main>
+<div class="header">
+  <h1>Czechia Population Distribution</h1>
+  <p style="color: var(--text-dim); font-size: 1.1rem; letter-spacing: 1px;">
+    Population Estimate 2024-12-31 | Data Source: CITY POPULATION
+  </p>
+</div>
+
+  <div class="map-card">
+    <div id="map"></div>
+  </div>
+</main>
+
+<footer>
+  <div>© 2026 General Insight</div>
+  <div>Visualizing the Future through Data</div>
+</footer>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+  // 1. Inisialisasi Map
+  const map = L.map('map', { 
+    zoomControl: true, 
+    scrollWheelZoom: true,
+    zoomSnap: 0.1
+  }).setView([49.8, 15.5], 7);
+
+  // 2. Fungsi Skala Warna (Threshold)
+  // Meniru logika Yugoslavia: Angka tertentu mendapatkan warna tertentu
+  function getColor(d) {
+    return d > 200000 ? '#0b1354' : // Sangat Besar (Misal > 200rb)
+           d > 150000 ? '#272168' :
+           d > 100000 ? '#41307b' :
+           d > 80000  ? '#5d3e8d' :
+           d > 60000  ? '#7c4c9d' :
+           d > 40000  ? '#9f59aa' :
+           d > 20000  ? '#c863b3' :
+           d > 10000  ? '#da7db7' :
+                        '#f9d1d1';   // Sangat Kecil
+  }
+
+  // 3. Styling Wilayah
+  function style(feature) {
+    return {
+      // Mengambil data angka "Total" dari properti GeoJSON
+      fillColor: getColor(feature.properties.Total), 
+      weight: 1,
+      opacity: 1,
+      color: 'white', // Garis pembatas putih agar hidup
+      fillOpacity: 0.85
+    };
+  }
+
+  function highlightFeature(e) {
+    var layer = e.target;
+    layer.setStyle({
+      weight: 3,
+      color: '#38bdf8',
+      fillOpacity: 1
+    });
+    layer.bringToFront();
+  }
+
+  function resetHighlight(e) {
+    geoLayer.resetStyle(e.target);
+  }
+
+// 4. Load GeoJSON Data
+fetch('https://raw.githubusercontent.com/Alammahadika/General-Insight/main/czech_map_data_web.geojson')
+  .then(res => res.json())
+  .then(data => {
+    window.geoLayer = L.geoJSON(data, {
+      style: style,
+      onEachFeature: function(feature, layer) {
+        layer.on({
+          mouseover: highlightFeature,
+          mouseout: resetHighlight
+        });
+
+        // --- MULAI REVISI TOOLTIP ---
+        const props = feature.properties;
+        const total = Number(props.Total);
+        const male = Number(props.Male);
+        const female = Number(props.Female);
+
+        // Hitung persentase
+        const malePct = ((male / total) * 100).toFixed(1);
+        const femalePct = ((female / total) * 100).toFixed(1);
+
+        layer.bindTooltip(`
+          <div style="min-width: 180px;">
+            <b style="font-size:16px; color:#38bdf8; display:block; margin-bottom:8px; border-bottom:1px solid #334155; padding-bottom:4px;">
+              District: ${props.NAME_2}
+            </b>
+            <table style="width:100%; font-size:13px; border-collapse:collapse;">
+              <tr>
+                <td style="color:#94a3b8; padding:2px 0;">Total Residents:</td>
+                <td style="text-align:right; font-weight:600;">${total.toLocaleString()}</td>
+              </tr>
+              <tr>
+                <td style="color:#60a5fa; padding:2px 0;"><b>Male:</b></td>
+                <td style="text-align:right;">${male.toLocaleString()} (${malePct}%)</td>
+              </tr>
+              <tr>
+                <td style="color:#f472b6; padding:2px 0;"><b>Female:</b></td>
+                <td style="text-align:right;">${female.toLocaleString()} (${femalePct}%)</td>
+              </tr>
+            </table>
+          </div>
+        `, { 
+          sticky: true, 
+          direction: "auto",
+          className: 'leaflet-tooltip' // Menggunakan style CSS yang sudah Anda buat
+        });
+        // --- SELESAI REVISI TOOLTIP ---
+      }
+    }).addTo(map);
+
+    map.fitBounds(geoLayer.getBounds());
+  });
+
+  // 5. Membuat Legend Manual agar sesuai dengan warna di atas
+  const legend = L.control({position: 'bottomright'});
+
+  legend.onAdd = function (map) {
+    const div = L.DomUtil.create('div', 'info legend');
+    const grades = [0, 10000, 20000, 40000, 60000, 80000, 100000, 150000, 200000];
+    div.innerHTML = '<h4 style="margin-bottom:10px; color:#38bdf8;">Population Total</h4>';
+
+    for (let i = 0; i < grades.length; i++) {
+        div.innerHTML +=
+            '<i style="background:' + getColor(grades[i] + 1) + '; width:18px; height:18px; float:left; margin-right:8px;"></i> ' +
+            grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+    }
+    return div;
+  };
+
+  legend.addTo(map);
+</script>
+
+</body>
+</html>
