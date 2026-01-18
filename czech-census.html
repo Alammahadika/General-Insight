@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Czech Census | General Insight</title>
+
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Alammahadika/General-Insight/main/general-insight/generalinsight-high-resolution-logo.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+  <style>
+    :root {
+      --bg-dark: #0d1117;
+      --card-bg: #0b0e14;
+      --accent-blue: #38bdf8;
+      --text-main: #f1f5f9;
+      --text-dim: #94a3b8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Navigation - Responsive */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 1rem 5%;
+      background: rgba(13, 17, 23, 0.95);
+      backdrop-filter: blur(15px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+    }
+
+    nav img { height: 20px; filter: invert(1); }
+    nav a {
+      color: var(--text-main);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.8rem;
+    }
+
+    /* Main Content */
+    main {
+      max-width: 1200px;
+      margin: 100px auto 40px;
+      padding: 0 15px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .header h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.8rem; /* Lebih kecil untuk HP */
+      font-weight: 700;
+      background: linear-gradient(to right, #38bdf8, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+    }
+
+    /* Map Card */
+    .map-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      border: 1px solid rgba(56, 189, 248, 0.15);
+      padding: 8px;
+    }
+
+    #map {
+      height: 500px; /* Di HP jangan terlalu tinggi */
+      border-radius: 15px;
+      background: #0b0e14; 
+    }
+
+    /* Tooltip Premium */
+    .leaflet-tooltip {
+      background: #0f172a !important;
+      border: 1px solid var(--accent-blue) !important;
+      color: white !important;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 12px;
+    }
+
+    /* Legend Premium - Dioptimalkan untuk Mobile */
+    .info.legend {
+      background: rgba(15, 23, 42, 0.9) !important;
+      padding: 10px;
+      border-radius: 10px;
+      color: #f1f5f9;
+      font-size: 11px;
+      line-height: 18px;
+    }
+
+    footer {
+      margin-top: 40px;
+      padding: 20px 5%;
+      border-top: 1px solid rgba(56, 189, 248, 0.1);
+      display: flex;
+      flex-direction: column; /* Tumpuk di HP */
+      align-items: center;
+      gap: 10px;
+      color: var(--text-dim);
+      font-size: 0.75rem;
+      text-align: center;
+    }
+
+    /* --- MEDIA QUERIES UNTUK LAYAR BESAR (DESKTOP) --- */
+    @media (min-width: 768px) {
+      nav { padding: 1.2rem 8%; }
+      nav img { height: 24px; }
+      nav a { font-size: 0.9rem; }
+      
+      main { margin-top: 140px; }
+      .header h1 { font-size: 2.8rem; }
+      .header p { font-size: 1.1rem; }
+      
+      #map { height: 700px; }
+      
+      footer {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html">
+    <img src="https://raw.githubusercontent.com/Alammahadika/General-Insight/main/general-insight/generalinsight-high-resolution-logo-transparent.png" alt="General Insight Logo">
+  </a>
+  <a href="index.html#research">Back to Focus</a>
+</nav>
+
+<main>
+  <div class="header">
+    <h1>Czechia Population Distribution</h1>
+    <p>Population Estimate 2024-12-31 | Source: CITY POPULATION</p>
+  </div>
+
+  <div class="map-card">
+    <div id="map"></div>
+  </div>
+</main>
+
+<footer>
+  <div>© 2026 General Insight</div>
+  <div>Visualizing the Future through Data</div>
+</footer>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+  // 1. Inisialisasi Map (Zoom disesuaikan untuk HP)
+  const isMobile = window.innerWidth < 768;
+  const map = L.map('map', { 
+    zoomControl: true, 
+    scrollWheelZoom: false, // Matikan scroll agar tidak nyangkut saat scroll halaman di HP
+    zoomSnap: 0.1,
+    dragging: !L.Browser.mobile, // Opsional: matikan drag di mobile agar fokus scroll page
+    tap: !L.Browser.mobile
+  }).setView([49.8, 15.5], isMobile ? 6 : 7);
+
+  function getColor(d) {
+    return d > 200000 ? '#0b1354' :
+           d > 150000 ? '#272168' :
+           d > 100000 ? '#41307b' :
+           d > 80000  ? '#5d3e8d' :
+           d > 60000  ? '#7c4c9d' :
+           d > 40000  ? '#9f59aa' :
+           d > 20000  ? '#c863b3' :
+           d > 10000  ? '#da7db7' :
+                        '#f9d1d1';
+  }
+
+  function style(feature) {
+    return {
+      fillColor: getColor(feature.properties.Total), 
+      weight: 1,
+      opacity: 1,
+      color: 'white',
+      fillOpacity: 0.85
+    };
+  }
+
+  function highlightFeature(e) {
+    var layer = e.target;
+    layer.setStyle({
+      weight: 3,
+      color: '#38bdf8',
+      fillOpacity: 1
+    });
+    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+      layer.bringToFront();
+    }
+  }
+
+  function resetHighlight(e) {
+    geoLayer.resetStyle(e.target);
+  }
+
+  fetch('https://raw.githubusercontent.com/Alammahadika/General-Insight/main/czech_map_data_web.geojson')
+    .then(res => res.json())
+    .then(data => {
+      window.geoLayer = L.geoJSON(data, {
+        style: style,
+        onEachFeature: function(feature, layer) {
+          layer.on({
+            mouseover: highlightFeature,
+            mouseout: resetHighlight,
+            click: function(e) {
+                // Di HP klik berfungsi untuk memicu tooltip
+                layer.openTooltip();
+            }
+          });
+
+          const props = feature.properties;
+          const total = Number(props.Total);
+          const male = Number(props.Male);
+          const female = Number(props.Female);
+          const malePct = ((male / total) * 100).toFixed(1);
+          const femalePct = ((female / total) * 100).toFixed(1);
+
+          layer.bindTooltip(`
+            <div style="min-width: 160px;">
+              <b style="font-size:14px; color:#38bdf8; display:block; margin-bottom:5px; border-bottom:1px solid #334155;">District: ${props.NAME_2}</b>
+              <table style="width:100%; font-size:11px;">
+                <tr><td style="color:#94a3b8;">Population:</td><td style="text-align:right;">${total.toLocaleString()}</td></tr>
+                <tr><td style="color:#60a5fa;">Male:</td><td style="text-align:right;">${malePct}%</td></tr>
+                <tr><td style="color:#f472b6;">Female:</td><td style="text-align:right;">${femalePct}%</td></tr>
+              </table>
+            </div>
+          `, { sticky: true, className: 'leaflet-tooltip' });
+        }
+      }).addTo(map);
+      
+      // Auto zoom pas dengan layar
+      map.fitBounds(geoLayer.getBounds(), { padding: [20, 20] });
+    });
+
+  const legend = L.control({position: 'bottomright'});
+  legend.onAdd = function (map) {
+    const div = L.DomUtil.create('div', 'info legend');
+    const grades = [0, 20000, 40000, 80000, 150000, 200000];
+    div.innerHTML = '<b style="color:#38bdf8">Pop. Total</b><br>';
+    for (let i = 0; i < grades.length; i++) {
+        div.innerHTML +=
+            '<i style="background:' + getColor(grades[i] + 1) + '; width:12px; height:12px; float:left; margin-right:5px; margin-top:3px;"></i> ' +
+            grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+    }
+    return div;
+  };
+  legend.addTo(map);
+</script>
+
+</body>
+</html>
