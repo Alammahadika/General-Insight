@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>insta-collect v0.1.2 | Documentation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@600;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0d1117;
+      --card-bg: #161b22;
+      --accent-blue: #38bdf8;
+      --text-main: #f1f5f9;
+      --text-dim: #94a3b8;
+      --border: rgba(255, 255, 255, 0.08);
+      --code-bg: #010409;
+      --success: #10b981;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { overflow-x: hidden; scroll-behavior: smooth; } 
+    body { font-family: 'Inter', sans-serif; background: var(--bg-dark); color: var(--text-main); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+
+    /* --- Navigation --- */
+    nav {
+      position: sticky; top: 0; background: rgba(13, 17, 23, 0.95);
+      backdrop-filter: blur(12px); padding: 0.7rem 5%; display: flex; 
+      justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); z-index: 100;
+    }
+    
+    .nav-brand { 
+      font-family: 'Poppins', sans-serif; 
+      font-weight: 800; 
+      letter-spacing: -0.5px; 
+      font-size: 1.1rem; 
+      color: #f1f5f9;
+      text-decoration: none;
+    }
+    .nav-brand span { color: var(--accent-blue); }
+
+    nav a.nav-link { 
+        text-decoration: none; 
+        color: var(--text-main); 
+        font-size: 0.8rem; 
+        font-weight: 600; 
+        transition: 0.2s; 
+    }
+    nav a.nav-link:hover { color: var(--accent-blue); }
+
+    /* --- Layout --- */
+    .container { 
+      max-width: 1100px; margin: 1rem auto; padding: 0 15px;
+      display: grid; grid-template-columns: 240px 1fr; gap: 1.5rem;
+    }
+
+    /* --- Sidebar --- */
+    .sidebar { position: sticky; top: 80px; height: fit-content; }
+    .sidebar-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1rem; margin-bottom: 1rem;
+    }
+    .sidebar-card h4 { font-size: 0.65rem; text-transform: uppercase; color: var(--accent-blue); margin-bottom: 10px; letter-spacing: 0.8px; }
+    .sidebar-list { list-style: none; font-size: 0.8rem; }
+    .sidebar-list li { margin-bottom: 6px; color: var(--text-dim); display: flex; justify-content: space-between; }
+    .sidebar-list strong { color: var(--text-main); }
+    .nav-toc { display: flex; flex-direction: column; gap: 8px; }
+    .nav-toc a { display: block; font-size: 0.85rem; color: var(--text-dim); text-decoration: none; transition: 0.2s; }
+    .nav-toc a:hover { color: var(--accent-blue); transform: translateX(5px); }
+    .status-dot { height: 8px; width: 8px; background: var(--success); border-radius: 50%; display: inline-block; margin-right: 5px; }
+
+    /* --- Main Content --- */
+    .main-content {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.5rem; min-width: 0; 
+    }
+    .header-section { margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
+    .badge-container { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+    .badge { background: rgba(56, 189, 248, 0.1); color: var(--accent-blue); padding: 2px 8px; border-radius: 4px; font-size: 0.6rem; font-weight: 700; text-transform: uppercase; }
+    
+    h1 { font-family: 'Poppins'; font-size: 1.75rem; margin: 0.5rem 0; line-height: 1.2; }
+    h2 { font-family: 'Poppins'; color: var(--accent-blue); font-size: 1.25rem; margin: 1.5rem 0 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 5px; }
+    h3 { font-family: 'Poppins'; font-size: 0.95rem; margin: 1.2rem 0 0.6rem; color: #fff; }
+    p { margin-bottom: 1rem; color: #cbd5e1; font-size: 0.85rem; }
+    
+    pre {
+      background: var(--code-bg); padding: 1rem; border-radius: 8px;
+      border: 1px solid #30363d; overflow-x: auto;
+      font-family: 'Fira Code', monospace; font-size: 0.75rem; color: #e6edf3;
+      margin: 1rem 0;
+      white-space: pre-wrap; 
+      word-break: break-all; 
+    }
+
+    /* --- JSON Result Styling --- */
+    .result-wrapper { position: relative; margin-top: 1rem; }
+    .copy-btn {
+      position: absolute; top: 10px; right: 10px;
+      background: rgba(56, 189, 248, 0.1); border: 1px solid var(--accent-blue);
+      color: var(--accent-blue); padding: 4px 10px; border-radius: 6px;
+      font-size: 0.65rem; cursor: pointer; transition: 0.2s; font-weight: 600;
+      z-index: 10;
+    }
+    .copy-btn:hover { background: var(--accent-blue); color: white; }
+    .json-scroll { max-height: 450px; overflow-y: auto; border-left: 3px solid var(--success); }
+    
+    .pypi-btn {
+      display: inline-flex; align-items: center; background: #3775a9; color: white; 
+      padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 0.75rem; font-weight: 600;
+      margin-top: 5px; transition: 0.2s; gap: 6px;
+    }
+
+    .notice { 
+      background: rgba(56, 189, 248, 0.05); border-left: 3px solid var(--accent-blue); 
+      padding: 0.8rem; border-radius: 0 8px 8px 0; margin: 1rem 0; font-size: 0.8rem;
+    }
+
+    .data-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; list-style: none; }
+    .data-item { background: rgba(255,255,255,0.03); padding: 10px; border-radius: 8px; font-size: 0.75rem; border: 1px solid var(--border); }
+
+    footer { text-align: center; padding: 2rem 0; color: var(--text-dim); font-size: 0.7rem; border-top: 1px solid var(--border); margin-top: 2rem; }
+
+    /* Syntax Highlighting Colors */
+    .json-key { color: #7ee787; }
+    .json-string { color: #a5d6ff; }
+    .json-number { color: #d2a8ff; }
+    .json-boolean { color: #ffab70; }
+
+    @media (max-width: 850px) {
+      .container { grid-template-columns: 1fr; margin-top: 0.5rem; gap: 1rem; }
+      .sidebar { display: none; } 
+      .main-content { padding: 1.2rem; border-radius: 0; border-left: none; border-right: none; }
+      .data-grid { grid-template-columns: 1fr; } 
+      h1 { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="https://alammahadika.github.io/General-Insight/" class="nav-brand">GENERAL<span>INSIGHT</span></a>
+    <a href="https://alammahadika.github.io/General-Insight/" class="nav-link">Back to Focus</a>
+  </nav>
+
+  <div class="container">
+    <aside class="sidebar">
+      <div class="sidebar-card">
+        <h4>Project Status</h4>
+        <ul class="sidebar-list">
+          <li>Status: <span><span class="status-dot"></span><strong>Stable</strong></span></li>
+          <li>Version: <strong>0.1.2</strong></li>
+        </ul>
+      </div>
+      <div class="sidebar-card">
+        <h4>Contents</h4>
+        <nav class="nav-toc">
+          <a href="#install">Installation</a>
+          <a href="#usage">CLI Usage</a>
+          <a href="#results">Sample JSON</a>
+          <a href="#parser">HTML Parser</a>
+          <a href="#live">Live API Demo</a>
+        </nav>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="header-section">
+        <div class="badge-container">
+          <span class="badge">Docs</span>
+          <span class="badge" style="background: rgba(16, 185, 129, 0.1); color: var(--success);">PyPI Verified</span>
+        </div>
+        <h1>insta-collect</h1>
+        <p>A modular automation tool for Instagram data extraction, optimized for research and social analysis.</p>
+        <a href="https://pypi.org/project/insta-collect/" target="_blank" class="pypi-btn">View on PyPI</a>
+      </header>
+
+      <section id="install">
+        <h2>Installation</h2>
+        <pre>pip install insta-collect</pre>
+        <div class="notice">
+          <strong>Note:</strong> Playwright binaries required:
+          <pre style="margin-bottom:0; margin-top:8px; background: rgba(0,0,0,0.4);">playwright install</pre>
+        </div>
+      </section>
+
+      <section id="usage">
+        <h2>CLI Usage</h2>
+        <pre>insta-collect --tag donaldtrump --limit 7</pre>
+      </section>
+
+      <section id="results">
+        <h3>Sample JSON Output</h3>
+        <pre class="json-scroll">
+[
+    {
+    "url": "https://www.instagram.com/p/DS3MmgOCTBl/",
+    "caption": "O presidente dos Estados Unidos, Donald Trump...", 
+    "caption_status": "long_text",
+    "timestamp": "2025-12-29T21:30:31.000Z",
+    "is_video": false,
+    "hashtags": [
+      "EUA",
+      "Venezuela",
+      "DonaldTrump",
+      "Ataque",
+      "JovemPanNews"
+    ],
+    "mentions": [
+      "jovempannews"
+    ],
+    "source_tag": "donaldtrump"
+  },
+
+{
+    "url": "https://www.instagram.com/p/CrVuUBbN5bQ/",
+    "caption": "Following the new charges against US ex-President Donald Trump...",
+    "timestamp": "2023-04-22T13:04:10.000Z",
+    "is_video": false,
+    "hashtags": [
+      "TheAfghan",
+      "Afghanistan",
+      "donaldtrump",
+      "joebiden"
+    ],
+    "mentions": [],
+    "source_tag": "donaldtrump"
+  }
+]</pre>
+      </section>
+
+      <section id="parser">
+        <h2>HTML Comment Parser</h2>
+        <pre>python3 insta-collect.py obama.html --preview 20</pre>
+        <pre style="color: var(--success); border-color: var(--success); background: #010409;">
+[+] Total entries saved: 239
+[+] JSON/XLSX generated.
+
+--- PREVIEW ---
+1. @primo_18__: Epsteins island crew
+2. @mohhco: All the pedophiles in ONE picture!!!
+3. @therealbunbun40: 3 great president's
+4. @southernmommaa: President Bush! President Obama! 🩷💙🇺🇸🙏
+5. @lo__s___: Clinton is the best president in this pic
+6. @wumi_18: Clinton the better person!!
+7. @benmary01: Every achievement starts with a decision to try ignorance destorys
+8. @allmyvapesaredead: All thinking about the children they’re going to have for lunch
+9. @collinsolivedenise: What our country needs again real leadership
+...</pre>
+      </section>
+
+      <section id="fields">
+        <h2>Data Summary</h2>
+        <div class="data-grid">
+          <div class="data-item"><strong>URL:</strong> Direct Post Links</div>
+          <div class="data-item"><strong>Caption:</strong> Full Post Metadata</div>
+          <div class="data-item"><strong>Entities:</strong> Hashtags & Mentions</div>
+          <div class="data-item"><strong>System:</strong> Auto-filtering</div>
+        </div>
+      </section>
+
+      <section id="live">
+        <h2>Live API Demo</h2>
+        <p>Connect to local API on <strong>http://127.0.0.1:8000</strong></p>
+
+        <div style="display:flex; gap:10px; margin:15px 0; flex-wrap:wrap;">
+          <input id="tag" placeholder="hashtag" value="ukraine" style="padding:8px 10px; border-radius:8px; border:1px solid var(--border); background:#010409; color:white;"/>
+          <input id="limit" type="number" value="5" style="width:80px; padding:8px; border-radius:8px; border:1px solid var(--border); background:#010409; color:white;"/>
+          <button onclick="collect()" style="background:#38bdf8; border:none; padding:8px 14px; border-radius:8px; font-weight:bold; cursor:pointer;">Collect</button>
+        </div>
+
+        <div class="result-wrapper">
+          <button class="copy-btn" onclick="copyToClipboard()">COPY JSON</button>
+          <pre id="result" class="json-scroll">Result will appear here...</pre>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer>
+    <p>© 2026 General Insight. Developed by Alam Mahadika.</p>
+  </footer>
+
+<script>
+// Fungsi Syntax Highlighting untuk JSON
+function syntaxHighlight(json) {
+    if (typeof json != 'string') {
+         json = JSON.stringify(json, undefined, 2);
+    }
+    json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+        var cls = 'json-number';
+        if (/^"/.test(match)) {
+            if (/:$/.test(match)) {
+                cls = 'json-key';
+            } else {
+                cls = 'json-string';
+            }
+        } else if (/true|false/.test(match)) {
+            cls = 'json-boolean';
+        } else if (/null/.test(match)) {
+            cls = 'json-null';
+        }
+        return '<span class="' + cls + '">' + match + '</span>';
+    });
+}
+
+async function collect() {
+  const button = document.querySelector("button");
+  const resultContainer = document.getElementById("result");
+  const tag = document.getElementById("tag").value;
+  const limit = document.getElementById("limit").value;
+
+  if (!tag || limit < 1 || limit > 10) {
+    resultContainer.style.color = "#ef4444"; 
+    resultContainer.textContent = "Error: Tag required. Limit must be between 1–10.";
+    return;
+  }
+
+  button.disabled = true;
+  resultContainer.innerHTML = "Collecting data...";
+
+  try {
+    const res = await fetch("http://127.0.0.1:8000/collect", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ 
+        tag: tag, 
+        limit: parseInt(limit) 
+      })
+    });
+
+    if (!res.ok) throw new Error(`Server responded with ${res.status}`);
+    const data = await res.json();
+
+    resultContainer.innerHTML = syntaxHighlight(data);
+
+  } catch (err) {
+    resultContainer.style.color = "#ef4444";
+    resultContainer.textContent = "API CONNECTION ERROR:\n" + err.toString();
+  } finally {
+    button.disabled = false;
+  }
+}
+
+
+// Fungsi Salin (Copy)
+function copyToClipboard() {
+  const text = document.getElementById("result").innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector(".copy-btn");
+    btn.innerText = "COPIED!";
+    btn.style.background = "var(--success)";
+    btn.style.borderColor = "var(--success)";
+    btn.style.color = "white";
+    
+    setTimeout(() => {
+      btn.innerText = "Salin JSON";
+      btn.style.background = "rgba(56, 189, 248, 0.1)";
+      btn.style.borderColor = "var(--accent-blue)";
+      btn.style.color = "var(--accent-blue)";
+    }, 2000);
+  });
+}
+</script>
+
+</body>
+</html>
