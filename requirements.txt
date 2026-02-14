@@ -1,0 +1,33 @@
+# Requirements.txt untuk InstaCollect API di Railway
+# Using Instaloader (Railway-friendly, no browser needed)
+
+# FastAPI & Server
+fastapi==0.115.5
+uvicorn[standard]==0.32.1
+pydantic==2.10.3
+python-multipart==0.0.17
+
+# Rate Limiting
+slowapi==0.1.9
+
+# Instagram Scraping - Instaloader (RECOMMENDED)
+instaloader==4.13.1
+
+# Web Scraping - Backup
+beautifulsoup4==4.12.3
+lxml==5.3.0
+requests==2.32.3
+
+# Data Processing
+openpyxl==3.1.5
+
+# Async Support
+aiohttp==3.11.11
+
+# Logging
+python-json-logger==2.0.7
+
+# Environment Variables
+python-dotenv==1.0.1
+
+Playwright
